@@ -52,8 +52,13 @@ class Tsfe implements SingletonInterface
      * caches below. Each cached TSFE holds a full unserialized TypoScript
      * setup (easily ~10 MB per page), so an unbounded cache exhausts
      * memory_limit during CLI indexing of record items spread over many pages.
+     *
+     * Indexing a record walks through all languages of its site, and records on
+     * sys-folders take two entries per language. The limit must be above that,
+     * otherwise the oldest entry is always the one needed next and nothing is
+     * ever reused.
      */
-    protected const MAX_CACHED_INSTANCES = 10;
+    protected const MAX_CACHED_INSTANCES = 100;
 
     /**
      * @var TypoScriptFrontendController[]
